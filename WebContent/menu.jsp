@@ -6,6 +6,9 @@
 	  <li role="presentation"><a href="<%= basePath %>/tournaments">Турніри</a></li>
 	  <li role="presentation"><a href="<%= basePath %>/media">Галерея</a></li>
 	  <li role="presentation"><a href="<%= basePath %>/contact">Контакти</a></li>
+	  <% if (!request.getServletPath().contains("registration")) { %>
+	  	<li role="presentation" class="pull-right"><a href="<%= basePath %>/registration">Реєстрація</a></li>
+	  <% } %>
 	  <li role="presentation" class="pull-right">
 		<form class="navbar-form" method="post" action="<%= basePath %>/login">
 			<input type="text" name="login" class="form-control" placeholder="Логін">
@@ -13,5 +16,6 @@
 	  		<button type="submit" class="btn btn-primary">Увійти</button>
 		</form>
 	  <li>
+	  
 	</ul>
 </div>

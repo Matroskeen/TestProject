@@ -27,7 +27,7 @@ public class Contact extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.getRequestDispatcher("about.jsp").forward(request, response);
+		request.getRequestDispatcher("contact.jsp").forward(request, response);
 
 	}
 

@@ -5,4 +5,6 @@
 
 <%@include file = "menu.jsp" %>
 
-<h1>Media will be here!</h1>
+<div class="container">
+	<h1>Media will be here!</h1>
+</div>
