@@ -1,5 +1,7 @@
 package com.matroskeen.beans;
 
+import org.jasypt.util.password.StrongPasswordEncryptor;
+
 public class User {
 	
 	private int id;
@@ -89,5 +91,10 @@ public class User {
 	            + role + ", status=" + status + ", registered=" + registered
 	            + "]";
     }
+	
+	public boolean passwordIsValid(String plainPassword) {
+		StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
+		return passwordEncryptor.checkPassword(plainPassword, this.password);
+	}
 	
 }
