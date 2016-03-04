@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.matroskeen.dao.UserDAO;
+import com.matroskeen.helpful.Email;
+import com.matroskeen.helpful.Generator;
 import com.matroskeen.settings.Role;
 
 /**
@@ -46,8 +48,12 @@ public class Registration extends HttpServlet {
 		String errors = UserDAO.validateRegisterData(nickName, email);
 		
 		if (errors.isEmpty()) {
-			UserDAO.register(nickName, email, password, Role.USER);
-			request.getRequestDispatcher("home.jsp").forward(request, response);
+			String token = Generator.getRandomString(64);
+			String confirmLink = request.getContextPath() + "/confirm_email?token=" + token;
+			UserDAO.register(nickName, email, password, Role.USER, token);
+			new Email().sendRegistrationToken(email, confirmLink);
+			
+			response.sendRedirect(request.getContextPath() + "/confirm_email");
 		} else {
 			request.setAttribute("errors", errors);
 			request.setAttribute("nickname", nickName);

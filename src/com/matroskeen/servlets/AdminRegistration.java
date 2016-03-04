@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.matroskeen.dao.UserDAO;
+import com.matroskeen.helpful.Generator;
 import com.matroskeen.settings.Role;
 
 /**
@@ -43,7 +44,9 @@ public class AdminRegistration extends HttpServlet {
 		String password = request.getParameter("password");
 		
 		if (UserDAO.find(Role.ADMIN).isEmpty()) {
-			UserDAO.register(nickName, email, password, Role.ADMIN);
+			String token = Generator.getRandomString(64);
+			
+			UserDAO.register(nickName, email, password, Role.ADMIN, token);
 		}
 		response.sendRedirect(request.getContextPath());
 	}

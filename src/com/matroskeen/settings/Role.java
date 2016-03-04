@@ -1,8 +1,8 @@
 package com.matroskeen.settings;
 
-public interface Role {
+public class Role {
 	
-	byte ADMIN = 1;
-	byte USER = 0;
+	public final static byte ADMIN = 1;
+	public final static byte USER = 0;
 
 }

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.matroskeen.beans.User;
@@ -145,22 +146,49 @@ public class UserDAO {
 		return user;
 	}
 	
-	public static boolean register(String nickName, String email, String password, byte role) {
+	public static boolean register(String nickName, String email, String password, byte role, String token) {
 		
 		String query = "INSERT INTO users (nickname, email, password, role, registered) VALUES(?, ?, ?, ?, ?)";
 		
 		ConnectionManager conM = new ConnectionManager();
 		Connection con = conM.getConnection();
 		int rowsAffected = 0;
+		int userId = 0;
 		
 		long registered = System.currentTimeMillis();
 		
-		try (PreparedStatement ps = con.prepareStatement(query)) {
+		try (PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 			ps.setString(1, nickName);
 			ps.setString(2, email);
 			ps.setString(3, password);
 			ps.setByte(4, role);
 			ps.setLong(5, registered);
+			
+			rowsAffected = ps.executeUpdate();
+			ResultSet rs = ps.getGeneratedKeys();
+			
+			if (rs.next()) {
+				userId = rs.getInt(1);
+			}
+			
+			TokenDAO.addToken(userId, token);
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return rowsAffected > 0;
+	}
+	
+	public static boolean confirmEmail(String token) {
+		String query = "UPDATE users SET status = 1"
+				+ " WHERE id = (SELECT user_id FROM tokens WHERE token = ?)";
+		
+		ConnectionManager conM = new ConnectionManager();
+		Connection con = conM.getConnection();
+		int rowsAffected = 0;
+		
+		try (PreparedStatement ps = con.prepareStatement(query)) {
+			ps.setString(1, token);
 			
 			rowsAffected = ps.executeUpdate();
 			
@@ -169,5 +197,7 @@ public class UserDAO {
 		}
 		return rowsAffected > 0;
 	}
+	
+	
 
 }
