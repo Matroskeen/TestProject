@@ -1,4 +1,5 @@
-<% String errors = (String) request.getAttribute("errors"); %>
+<% String status = (String) request.getAttribute("status"); %>
+<% String message = (String) request.getAttribute("message"); %>
 <% String nickName = (String) request.getAttribute("nickname"); %>
 <% String email = (String) request.getAttribute("email"); %>
 
@@ -9,15 +10,15 @@
 <%@include file = "menu.jsp" %>
 
 <div class="container">
-	<h1 class="main-title">Реєстрація</h1>
-	
-	<% if (errors != null && !errors.isEmpty()) { %>
-		<div class="alert alert-danger" role="alert">
+	<% if (message != null && !message.isEmpty()) { %>
+		<div class="alert alert-<%= status %>" role="alert">
 		  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 		  <span class="sr-only">Error:</span>
-		  <%= errors %>
+		  <%= message %>
 		</div>
 	<% } %>
+	
+	<h1 class="main-title">Реєстрація</h1>
 	
 	<div class="row">
 		

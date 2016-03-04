@@ -55,7 +55,8 @@ public class Registration extends HttpServlet {
 			
 			response.sendRedirect(request.getContextPath() + "/confirm_email");
 		} else {
-			request.setAttribute("errors", errors);
+			request.setAttribute("status", "danger");
+			request.setAttribute("message", errors);
 			request.setAttribute("nickname", nickName);
 			request.setAttribute("email", email);
 			request.getRequestDispatcher("registration.jsp").forward(request, response);
