@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import org.jasypt.util.password.StrongPasswordEncryptor;
+
 import com.matroskeen.beans.User;
 import com.matroskeen.config.ConnectionManager;
 
@@ -156,6 +158,8 @@ public class UserDAO {
 		int userId = 0;
 		
 		long registered = System.currentTimeMillis();
+		StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
+		password = passwordEncryptor.encryptPassword(password);
 		
 		try (PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 			ps.setString(1, nickName);
