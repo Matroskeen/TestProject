@@ -1,4 +1,3 @@
-<% String message = (String) request.getAttribute("lol"); %>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
@@ -6,5 +5,6 @@
 
 <%@include file = "menu.jsp" %>
 
-<h1>Hello, guys!</h1>
-<h2><%= message %></h2>
+<div class="container">
+	<h1>Home page!</h1>
+</div>

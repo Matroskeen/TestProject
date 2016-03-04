@@ -5,4 +5,6 @@
 
 <%@include file = "menu.jsp" %>
 
-<h1>Tournaments coming soon</h1>
+<div class="container">
+	<h1>Tournaments coming soon</h1>
+</div>
