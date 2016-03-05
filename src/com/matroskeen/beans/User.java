@@ -12,6 +12,8 @@ public class User {
 	private byte role;
 	private byte status;
 	private long registered;
+	private String steamAccount;
+	private String wotAccount;
 	
 	public User(int id, String nickName, String email, String password,
             String avatar, byte role, byte status, long registered) {
@@ -24,6 +26,21 @@ public class User {
 	    this.role = role;
 	    this.status = status;
 	    this.registered = registered;
+    }
+	
+	public User(int id, String nickName, String email, String password,
+            String avatar, byte role, byte status, long registered, String steam_account, String wot_account) {
+	    super();
+	    this.id = id;
+	    this.nickName = nickName;
+	    this.email = email;
+	    this.password = password;
+	    this.avatar = avatar;
+	    this.role = role;
+	    this.status = status;
+	    this.registered = registered;
+	    this.steamAccount = steam_account;
+	    this.wotAccount = wot_account;
     }
 
 	public User() { }
@@ -53,7 +70,8 @@ public class User {
 		return password;
 	}
 	public void setPassword(String password) {
-		this.password = password;
+		StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
+		this.password = passwordEncryptor.encryptPassword(password);
 	}
 
 	public String getAvatar() {
@@ -83,6 +101,20 @@ public class User {
 	public void setRegistered(long registered) {
 		this.registered = registered;
 	}
+	
+	public String getSteamAccount() {
+		return steamAccount;
+	}
+	public void setSteamAccount(String steamAccount) {
+		this.steamAccount = steamAccount;
+	}
+
+	public String getWotAccount() {
+		return wotAccount;
+	}
+	public void setWotAccount(String wotAccount) {
+		this.wotAccount = wotAccount;
+	}
 
 	@Override
     public String toString() {
@@ -92,7 +124,7 @@ public class User {
 	            + "]";
     }
 	
-	public boolean passwordIsValid(String plainPassword) {
+	public boolean isPasswordValid(String plainPassword) {
 		StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
 		return passwordEncryptor.checkPassword(plainPassword, this.password);
 	}

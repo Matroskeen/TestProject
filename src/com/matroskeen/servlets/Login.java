@@ -35,7 +35,7 @@ public class Login extends HttpServlet {
 		String password = request.getParameter("password");
 		User user = UserDAO.find(login);
 		
-		if (user != null && user.passwordIsValid(password)) {
+		if (user != null && user.isPasswordValid(password)) {
 			HttpSession session = request.getSession(true);
 			session.setAttribute("user", user);
 			response.sendRedirect(request.getContextPath() + "/");
