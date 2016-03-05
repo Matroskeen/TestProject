@@ -1,6 +1,4 @@
-<%@ page import="com.matroskeen.beans.User" %>
-
-<% User user = (User) session.getAttribute("user"); %>
+<%@include file = "header.jsp" %>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
@@ -26,3 +24,11 @@
 	  <% } %>
 	</ul>
 </div>
+<div class="container">
+			<% if (message != null && !message.isEmpty()) { %>
+				<div class="alert alert-<%= status %>" role="alert">
+				  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				  <span class="sr-only">Error:</span>
+				  <%= message %>
+				</div>
+			<% } %>

@@ -31,7 +31,7 @@ public class UserDAO {
 	}
 	
 	public static User find(String nickName) {
-		String query = "SELECT * FROM users WHERE nickname = ?";
+		String query = "SELECT * FROM users us LEFT JOIN accounts ac ON us.id = ac.user_id WHERE nickname = ?";
 		
 		ConnectionManager conM = new ConnectionManager();
 		Connection con = conM.getConnection();
@@ -51,7 +51,9 @@ public class UserDAO {
 				byte role = rs.getByte("role");
 				byte status = rs.getByte("status");
 				long registered = rs.getLong("registered");
-				user = new User(id, nickName, email, password, avatar, role, status, registered);
+				String steamAccount = rs.getString("steam_account");
+				String wotAccount = rs.getString("wot_account");
+				user = new User(id, nickName, email, password, avatar, role, status, registered, steamAccount, wotAccount);		
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -60,7 +62,7 @@ public class UserDAO {
 	}
 	
 	public static User find(int id) {
-		String query = "SELECT * FROM users WHERE id = ?";
+		String query = "SELECT * FROM users us LEFT JOIN accounts ac ON us.id = ac.user_id WHERE id = ?";
 		
 		ConnectionManager conM = new ConnectionManager();
 		Connection con = conM.getConnection();
@@ -80,7 +82,9 @@ public class UserDAO {
 				byte role = rs.getByte("role");
 				byte status = rs.getByte("status");
 				long registered = rs.getLong("registered");
-				user = new User(id, nickName, email, password, avatar, role, status, registered);
+				String steamAccount = rs.getString("steam_account");
+				String wotAccount = rs.getString("wot_account");
+				user = new User(id, nickName, email, password, avatar, role, status, registered, steamAccount, wotAccount);
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -89,7 +93,7 @@ public class UserDAO {
 	}
 	
 	public static ArrayList<User> find(byte role) {
-		String query = "SELECT * FROM users WHERE role = ?";
+		String query = "SELECT * FROM users us LEFT JOIN accounts ac ON us.id = ac.user_id WHERE role = ?";
 		
 		ConnectionManager conM = new ConnectionManager();
 		Connection con = conM.getConnection();
@@ -110,7 +114,9 @@ public class UserDAO {
 				String avatar = rs.getString("avatar");
 				byte status = rs.getByte("status");
 				long registered = rs.getLong("registered");
-				user = new User(id, nickName, email, password, avatar, role, status, registered);
+				String steamAccount = rs.getString("steam_account");
+				String wotAccount = rs.getString("wot_account");
+				user = new User(id, nickName, email, password, avatar, role, status, registered, steamAccount, wotAccount);
 				users.add(user);
 			}
 		} catch (SQLException e) {
@@ -120,7 +126,7 @@ public class UserDAO {
 	}
 	
 	public static User findByEmail(String email) {
-		String query = "SELECT * FROM users WHERE email = ?";
+		String query = "SELECT * FROM users us LEFT JOIN accounts ac ON us.id = ac.user_id WHERE email = ?";
 		
 		ConnectionManager conM = new ConnectionManager();
 		Connection con = conM.getConnection();
@@ -140,7 +146,9 @@ public class UserDAO {
 				byte role = rs.getByte("role");
 				byte status = rs.getByte("status");
 				long registered = rs.getLong("registered");
-				user = new User(id, nickName, email, password, avatar, role, status, registered);
+				String steamAccount = rs.getString("steam_account");
+				String wotAccount = rs.getString("wot_account");
+				user = new User(id, nickName, email, password, avatar, role, status, registered, steamAccount, wotAccount);
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -176,7 +184,7 @@ public class UserDAO {
 			}
 			
 			TokenDAO.addToken(userId, token);
-			
+			addAccounts(userId);
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
@@ -202,6 +210,60 @@ public class UserDAO {
 		return rowsAffected > 0;
 	}
 	
+	public static boolean update(User user) {
+		String query = "UPDATE users SET password=?, avatar=? WHERE id = ?";
+
+		ConnectionManager conM = new ConnectionManager();
+		Connection con = conM.getConnection();
+		int rowsAffected = 0;
+		
+		try (PreparedStatement ps = con.prepareStatement(query)) {
+			ps.setString(1, user.getPassword());
+			ps.setString(2, user.getAvatar());
+			ps.setInt(3, user.getId());
+			
+			rowsAffected = ps.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return rowsAffected > 0;
+	}
+	
+	public static boolean addAccounts(int userId) {
+		String query = "INSERT INTO accounts (user_id) VALUES (?)";
+
+		ConnectionManager conM = new ConnectionManager();
+		Connection con = conM.getConnection();
+		int rowsAffected = 0;
+		
+		try (PreparedStatement ps = con.prepareStatement(query)) {
+			ps.setInt(1, userId);
+	
+			rowsAffected = ps.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return rowsAffected > 0;
+	}
+	
+	public static boolean updateAccounts(User user) {
+		String query = "UPDATE accounts SET steam_account = ?, wot_account = ? WHERE user_id = ?";
+
+		ConnectionManager conM = new ConnectionManager();
+		Connection con = conM.getConnection();
+		int rowsAffected = 0;
+		
+		try (PreparedStatement ps = con.prepareStatement(query)) {
+			ps.setString(1, user.getSteamAccount());
+			ps.setString(2, user.getWotAccount());
+			ps.setInt(3, user.getId());
+			
+			rowsAffected = ps.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return rowsAffected > 0;
+	}
 	
 
 }

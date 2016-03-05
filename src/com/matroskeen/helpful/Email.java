@@ -15,9 +15,9 @@ import javax.mail.internet.MimeMessage;
 public class Email {
 	
 	private static String SMTP_HOST = "smtp.gmail.com";  
-    private static String FROM_ADDRESS = "";  
-    private static String PASSWORD = "";  
-    private static String FROM_NAME = "CyberSport.com";  
+    private static String FROM_ADDRESS = "LutskCyberSport@gmail.com";  
+    private static String PASSWORD = "fksufnjh28";  
+    private static String FROM_NAME = "LutskCyberSport.com";  
 	
 	public boolean sendRegistrationToken(String userEmail, String link) {
 		
@@ -29,8 +29,8 @@ public class Email {
         
         Session session = Session.getInstance(props, new SocialAuth()); 
 
-        String msgBody = "<p>Вітаємо на нашому ресурсі! "
-        		+ "Для підтвердження вашої пошти перейдіть, будь ласка, за посиланням:</p>"
+        String msgBody = "Вітаємо на нашому ресурсі! "
+        		+ "Для підтвердження реєстрації перейдіть за посиланням: "
         		+ link;
         
         try {
@@ -39,7 +39,7 @@ public class Email {
             msg.setFrom(new InternetAddress(FROM_ADDRESS, FROM_NAME));
             msg.addRecipient(Message.RecipientType.TO, new InternetAddress(userEmail, "User"));
             
-            msg.setSubject("Підтвердження пошти на сайті " + FROM_NAME);
+            msg.setSubject("Підтвердження реєстрації на " + FROM_NAME);
             msg.setText(msgBody);
             
             Transport.send(msg);
