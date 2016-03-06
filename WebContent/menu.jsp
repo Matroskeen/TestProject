@@ -20,7 +20,7 @@
 			</form>
 		  <li>
 	  <% } else { %>
-	  	<li class="pull-right"><p>Welcome, <a href="#"><%= user.getNickName() %></a></p></li>
+	  	<li class="pull-right"><p>Welcome, <a href="<%= basePath %>/edit_profile"><%= user.getNickName() %></a></p></li>
 	  <% } %>
 	</ul>
 </div>
