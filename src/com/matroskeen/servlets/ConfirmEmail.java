@@ -40,7 +40,7 @@ public class ConfirmEmail extends HttpServlet {
 			}
 		}
 		
-		request.getRequestDispatcher("confirm_email.jsp").forward(request, response);
+		request.getRequestDispatcher("confirm-email.jsp").forward(request, response);
 	}
 
 }
