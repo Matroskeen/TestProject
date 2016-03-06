@@ -23,9 +23,13 @@ $(document).ready(function() {
 	    removeTitle: 'Cancel or reset changes',
 	    elErrorContainer: '#kv-avatar-errors',
 	    msgErrorClass: 'alert alert-block alert-danger',
-	    defaultPreviewContent: '<img src='+ basePath + '/images/avatars/default_avatar.png alt="Your Avatar" style="width:160px">',
-	    layoutTemplates: {main2: '{preview} ' + ' {remove} {browse}'},
+	    defaultPreviewContent: '<img id="avatar-pict" src="" style="width:160px">',
+	    layoutTemplates: {main2: '{preview} ' + '{browse}'},
 	    allowedFileExtensions: ["jpg", "png", "gif"]
 	});
+	
+	var avatarName = $('#avatar-name').val() === "" ? 'default_avatar.png' : $('#avatar-name').val();
+	
+	$("#avatar-pict").attr('src', basePath + '/images/avatars/' + avatarName);
 	
 });

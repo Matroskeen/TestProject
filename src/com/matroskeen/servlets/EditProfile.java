@@ -74,7 +74,10 @@ public class EditProfile extends HttpServlet {
 			}
 			user.setSteamAccount(steamAccount);
 			user.setWotAccount(wotAccount);
-			user.setAvatar(avatarName);
+			
+			if (avatarName != null) {
+				user.setAvatar(avatarName);
+			}
 			
 			if (UserDAO.update(user) && UserDAO.updateAccounts(user)) {
 				session.setAttribute("status", "success");

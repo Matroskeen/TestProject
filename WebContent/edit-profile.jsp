@@ -8,7 +8,7 @@
 <div class="row">
 	<form method="post" action="<%= basePath %>/edit_profile" enctype="multipart/form-data">
 		<div class="col-md-6">
-			<div id="kv-avatar-errors" class="center-block" style="width:800px; display:none"></div>
+			<div id="kv-avatar-errors" class="center-block" style="width: 800px; display:none"></div>
 			<div class="kv-avatar" style="width: 200px">
 		        <input id="avatar" name="avatar" type="file" class="file-loading">
 		   	</div>
@@ -40,7 +40,7 @@
 			    <label for="repeat-password">Повторіть новий пароль</label>
 			    <input type="password" class="form-control" id="repeat-password" name="repeat-password">
 		 	</div>
-			  
+			<input type="hidden" id="avatar-name" value="<%= user.getAvatar() %>">  
 		 	<button type="submit" class="btn btn-default">Зберегти</button>
 		</div>
 	</form>
