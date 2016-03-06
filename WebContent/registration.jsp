@@ -10,7 +10,7 @@
 <div class="row">
 	
 	<div class="col-md-6">
-		<form method="post" action="<%= basePath %>/registration">
+		<form id="register-form" method="post" action="<%= basePath %>/registration">
 		  <div class="form-group">
 		    <label for="nickname">Нікнейм</label>
 		    <input type="text" class="form-control" id="nickname" name="nickname" required 
@@ -30,7 +30,7 @@
 		    <input type="password" class="form-control" id="repeat-password" name="repeat-password" required>
 		  </div>
 		  
-		 <button type="submit" class="btn btn-default">Зареєструватись</button>
+		 <button id="register" type="submit" class="btn btn-default">Зареєструватись</button>
 		</form>
 	</div>
 	
