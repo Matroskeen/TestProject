@@ -2,6 +2,9 @@ package com.matroskeen.beans;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
+import com.matroskeen.settings.Role;
+import com.matroskeen.settings.Status;
+
 public class User {
 	
 	private int id;
@@ -114,6 +117,41 @@ public class User {
 	}
 	public void setWotAccount(String wotAccount) {
 		this.wotAccount = wotAccount;
+	}
+	
+	public String getRoleName() {
+		String roleName = "";
+		
+		switch(this.role) {
+			case Role.USER:
+				roleName = "Користувач";
+				break;
+			case Role.ADMIN:
+				roleName = "Адмін";
+				break;
+			default:
+				roleName = "Невідомо";
+		}
+		return roleName;
+	}
+	
+	public String getStatusName() {
+		String statusName = "";
+		
+		switch(this.status) {
+			case Status.CONFIRMED:
+				statusName = "Підтверджений";
+				break;
+			case Status.REGISTERED:
+				statusName = "Зареєстрований";
+				break;
+			case Status.BANNED:
+				statusName = "Забанений";
+				break;
+			default:
+				statusName = "Невідомо";
+		}
+		return statusName;
 	}
 
 	@Override

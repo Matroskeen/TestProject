@@ -31,7 +31,7 @@ public class UserDAO {
 	}
 	
 	public static User find(String nickName) {
-		String query = "SELECT * FROM users us LEFT JOIN accounts ac ON us.id = ac.user_id WHERE nickname = ?";
+		String query = "SELECT * FROM users us INNER JOIN accounts ac ON us.id = ac.user_id WHERE nickname = ?";
 		
 		ConnectionManager conM = new ConnectionManager();
 		Connection con = conM.getConnection();
@@ -62,7 +62,7 @@ public class UserDAO {
 	}
 	
 	public static User find(int id) {
-		String query = "SELECT * FROM users us LEFT JOIN accounts ac ON us.id = ac.user_id WHERE id = ?";
+		String query = "SELECT * FROM users us INNER JOIN accounts ac ON us.id = ac.user_id WHERE id = ?";
 		
 		ConnectionManager conM = new ConnectionManager();
 		Connection con = conM.getConnection();
@@ -93,7 +93,7 @@ public class UserDAO {
 	}
 	
 	public static ArrayList<User> find(byte role) {
-		String query = "SELECT * FROM users us LEFT JOIN accounts ac ON us.id = ac.user_id WHERE role = ?";
+		String query = "SELECT * FROM users us INNER JOIN accounts ac ON us.id = ac.user_id WHERE role = ?";
 		
 		ConnectionManager conM = new ConnectionManager();
 		Connection con = conM.getConnection();
@@ -126,7 +126,7 @@ public class UserDAO {
 	}
 	
 	public static User findByEmail(String email) {
-		String query = "SELECT * FROM users us LEFT JOIN accounts ac ON us.id = ac.user_id WHERE email = ?";
+		String query = "SELECT * FROM users us INNER JOIN accounts ac ON us.id = ac.user_id WHERE email = ?";
 		
 		ConnectionManager conM = new ConnectionManager();
 		Connection con = conM.getConnection();
@@ -265,5 +265,37 @@ public class UserDAO {
 		return rowsAffected > 0;
 	}
 	
+	public static ArrayList<User> getAll() {
+		String query = "SELECT * FROM users us INNER JOIN accounts ac ON us.id = ac.user_id "
+				+ "ORDER BY us.role DESC, us.id";
+		
+		ConnectionManager conM = new ConnectionManager();
+		Connection con = conM.getConnection();
+		ResultSet rs = null;
+		User user = null;
+		ArrayList<User> users = new ArrayList<>();
+		
+		try (PreparedStatement ps = con.prepareStatement(query)) {
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				String nickName = rs.getString("nickname");
+				String email = rs.getString("email");
+				String password = rs.getString("password");
+				String avatar = rs.getString("avatar");
+				byte role = rs.getByte("role");
+				byte status = rs.getByte("status");
+				long registered = rs.getLong("registered");
+				String steamAccount = rs.getString("steam_account");
+				String wotAccount = rs.getString("wot_account");
+				user = new User(id, nickName, email, password, avatar, role, status, registered, steamAccount, wotAccount);
+				users.add(user);
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return users;
+	}
 
 }
