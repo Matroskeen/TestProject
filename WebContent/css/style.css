@@ -23,3 +23,7 @@
     display: table-cell;
     max-width: 220px;
 }
+.avatar-table {
+	width: 30px;
+	height: 30px;
+}
