@@ -17,6 +17,13 @@
 		    <input type="text" class="form-control" id="title" name="title" required
 		    	value="<%= title != null? title : "" %>">
 		  </div>
+		  <div class="form-group">
+		    <label for="status">Статус</label>
+		    <select class="form-control" name="status" id="status">
+			  <option value="0">Активний</option>
+			  <option value="1">Планується</option>
+			</select>
+		  </div>
 		  <div class="row">
 		  	<div class="col-md-6">
 		  		<div class="form-group">

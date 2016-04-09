@@ -1,6 +1,6 @@
 package com.matroskeen.settings;
 
-public class Status {
+public class AccountStatus {
 	
 	public final static byte REGISTERED = 0;
 	public final static byte CONFIRMED = 1;

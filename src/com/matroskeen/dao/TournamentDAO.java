@@ -9,10 +9,11 @@ import com.matroskeen.config.ConnectionManager;
 
 public class TournamentDAO {
 	
-	public static boolean create(String title, int teamPlayers, int extraPlayers, long date, String info, String order) {
+	public static boolean create(String title, byte teamPlayers, byte extraPlayers, long date, String info, String order,
+			byte tournamentStatus) {
 		
-		String query = "INSERT INTO tournaments (title, team_players, extra_players, date, info, terms)"
-				+ " VALUES (?, ?, ?, ?, ?, ?)";
+		String query = "INSERT INTO tournaments (title, team_players, extra_players, date, info, terms, status)"
+				+ " VALUES (?, ?, ?, ?, ?, ?, ?)";
 		
 		ConnectionManager conM = new ConnectionManager();
 		Connection con = conM.getConnection();
@@ -20,11 +21,12 @@ public class TournamentDAO {
 		
 		try (PreparedStatement ps = con.prepareStatement(query)) {
 			ps.setString(1, title);
-			ps.setInt(2, teamPlayers);
-			ps.setInt(3, extraPlayers);
+			ps.setByte(2, teamPlayers);
+			ps.setByte(3, extraPlayers);
 			ps.setLong(4, date);
 			ps.setString(5, info);
 			ps.setString(6, order);
+			ps.setByte(7, tournamentStatus);
 			
 			rowsAffected = ps.executeUpdate();
 			
