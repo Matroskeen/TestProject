@@ -3,7 +3,7 @@ package com.matroskeen.beans;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
 import com.matroskeen.settings.Role;
-import com.matroskeen.settings.Status;
+import com.matroskeen.settings.AccountStatus;
 
 public class User {
 	
@@ -139,13 +139,13 @@ public class User {
 		String statusName = "";
 		
 		switch(this.status) {
-			case Status.CONFIRMED:
+			case AccountStatus.CONFIRMED:
 				statusName = "Підтверджений";
 				break;
-			case Status.REGISTERED:
+			case AccountStatus.REGISTERED:
 				statusName = "Зареєстрований";
 				break;
-			case Status.BANNED:
+			case AccountStatus.BANNED:
 				statusName = "Забанений";
 				break;
 			default:

@@ -63,10 +63,12 @@ public class Tournaments extends HttpServlet {
 			String sDate = request.getParameter("date"); // It's 00:00 time of the date.
 			String info = request.getParameter("info");
 			String order = request.getParameter("order");
+			String status = request.getParameter("status");
 			
-			int teamPlayers = Integer.parseInt(sTeamPlayers);
-			int extraPlayers = sExtraPlayers.isEmpty() ? 0 : Integer.parseInt(sExtraPlayers);
-			
+			byte teamPlayers = Byte.parseByte(sTeamPlayers);
+			byte extraPlayers = sExtraPlayers.isEmpty() ? 0 : Byte.parseByte(sExtraPlayers);
+			byte tournamentStatus = Byte.parseByte(status);
+					
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			long date = 0;
 	        try {
@@ -76,7 +78,7 @@ public class Tournaments extends HttpServlet {
 		        e.printStackTrace();
 	        }
 			
-			if (TournamentDAO.create(title, teamPlayers, extraPlayers, date, info, order)) {
+			if (TournamentDAO.create(title, teamPlayers, extraPlayers, date, info, order, tournamentStatus)) {
 				session.setAttribute("status", "success");
 				session.setAttribute("message", "Турнір успішно додано!");
 				response.sendRedirect(request.getContextPath() + "/tournaments");
