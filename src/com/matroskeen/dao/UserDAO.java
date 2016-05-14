@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
-import com.matroskeen.beans.User;
+import com.matroskeen.beans.UserBean;
 import com.matroskeen.config.ConnectionManager;
 
 public class UserDAO {
@@ -17,7 +17,7 @@ public class UserDAO {
 	public static String validateRegisterData(String nickName, String email) {
 		
 		String errors = "";
-		User user = find(nickName);
+		UserBean user = find(nickName);
 		
 		if (user != null) {
 			errors += "На жаль, цей нікнейм вже зайнято :(<br>";
@@ -30,13 +30,13 @@ public class UserDAO {
 		return errors;
 	}
 	
-	public static User find(String nickName) {
+	public static UserBean find(String nickName) {
 		String query = "SELECT * FROM users us INNER JOIN accounts ac ON us.id = ac.user_id WHERE nickname = ?";
 		
 		ConnectionManager conM = new ConnectionManager();
 		Connection con = conM.getConnection();
 		ResultSet rs = null;
-		User user = null;
+		UserBean user = null;
 		
 		try (PreparedStatement ps = con.prepareStatement(query)) {
 			ps.setString(1, nickName);
@@ -53,7 +53,7 @@ public class UserDAO {
 				long registered = rs.getLong("registered");
 				String steamAccount = rs.getString("steam_account");
 				String wotAccount = rs.getString("wot_account");
-				user = new User(id, nickName, email, password, avatar, role, status, registered, steamAccount, wotAccount);		
+				user = new UserBean(id, nickName, email, password, avatar, role, status, registered, steamAccount, wotAccount);		
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -61,13 +61,13 @@ public class UserDAO {
 		return user;
 	}
 	
-	public static User find(int id) {
+	public static UserBean find(int id) {
 		String query = "SELECT * FROM users us INNER JOIN accounts ac ON us.id = ac.user_id WHERE id = ?";
 		
 		ConnectionManager conM = new ConnectionManager();
 		Connection con = conM.getConnection();
 		ResultSet rs = null;
-		User user = null;
+		UserBean user = null;
 		
 		try (PreparedStatement ps = con.prepareStatement(query)) {
 			ps.setInt(1, id);
@@ -84,7 +84,7 @@ public class UserDAO {
 				long registered = rs.getLong("registered");
 				String steamAccount = rs.getString("steam_account");
 				String wotAccount = rs.getString("wot_account");
-				user = new User(id, nickName, email, password, avatar, role, status, registered, steamAccount, wotAccount);
+				user = new UserBean(id, nickName, email, password, avatar, role, status, registered, steamAccount, wotAccount);
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -92,14 +92,14 @@ public class UserDAO {
 		return user;
 	}
 	
-	public static ArrayList<User> find(byte role) {
+	public static ArrayList<UserBean> find(byte role) {
 		String query = "SELECT * FROM users us INNER JOIN accounts ac ON us.id = ac.user_id WHERE role = ?";
 		
 		ConnectionManager conM = new ConnectionManager();
 		Connection con = conM.getConnection();
 		ResultSet rs = null;
-		User user = null;
-		ArrayList<User> users = new ArrayList<>();
+		UserBean user = null;
+		ArrayList<UserBean> users = new ArrayList<>();
 		
 		try (PreparedStatement ps = con.prepareStatement(query)) {
 			ps.setInt(1, role);
@@ -116,7 +116,7 @@ public class UserDAO {
 				long registered = rs.getLong("registered");
 				String steamAccount = rs.getString("steam_account");
 				String wotAccount = rs.getString("wot_account");
-				user = new User(id, nickName, email, password, avatar, role, status, registered, steamAccount, wotAccount);
+				user = new UserBean(id, nickName, email, password, avatar, role, status, registered, steamAccount, wotAccount);
 				users.add(user);
 			}
 		} catch (SQLException e) {
@@ -125,13 +125,13 @@ public class UserDAO {
 		return users;
 	}
 	
-	public static User findByEmail(String email) {
+	public static UserBean findByEmail(String email) {
 		String query = "SELECT * FROM users us INNER JOIN accounts ac ON us.id = ac.user_id WHERE email = ?";
 		
 		ConnectionManager conM = new ConnectionManager();
 		Connection con = conM.getConnection();
 		ResultSet rs = null;
-		User user = null;
+		UserBean user = null;
 		
 		try (PreparedStatement ps = con.prepareStatement(query)) {
 			ps.setString(1, email);
@@ -148,7 +148,7 @@ public class UserDAO {
 				long registered = rs.getLong("registered");
 				String steamAccount = rs.getString("steam_account");
 				String wotAccount = rs.getString("wot_account");
-				user = new User(id, nickName, email, password, avatar, role, status, registered, steamAccount, wotAccount);
+				user = new UserBean(id, nickName, email, password, avatar, role, status, registered, steamAccount, wotAccount);
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -210,7 +210,7 @@ public class UserDAO {
 		return rowsAffected > 0;
 	}
 	
-	public static boolean update(User user) {
+	public static boolean update(UserBean user) {
 		String query = "UPDATE users SET password=?, avatar=? WHERE id = ?";
 
 		ConnectionManager conM = new ConnectionManager();
@@ -246,7 +246,7 @@ public class UserDAO {
 		return rowsAffected > 0;
 	}
 	
-	public static boolean updateAccounts(User user) {
+	public static boolean updateAccounts(UserBean user) {
 		String query = "UPDATE accounts SET steam_account = ?, wot_account = ? WHERE user_id = ?";
 
 		ConnectionManager conM = new ConnectionManager();
@@ -265,15 +265,15 @@ public class UserDAO {
 		return rowsAffected > 0;
 	}
 	
-	public static ArrayList<User> getAll() {
+	public static ArrayList<UserBean> getAll() {
 		String query = "SELECT * FROM users us INNER JOIN accounts ac ON us.id = ac.user_id "
 				+ "ORDER BY us.role DESC, us.id";
 		
 		ConnectionManager conM = new ConnectionManager();
 		Connection con = conM.getConnection();
 		ResultSet rs = null;
-		User user = null;
-		ArrayList<User> users = new ArrayList<>();
+		UserBean user = null;
+		ArrayList<UserBean> users = new ArrayList<>();
 		
 		try (PreparedStatement ps = con.prepareStatement(query)) {
 			rs = ps.executeQuery();
@@ -289,7 +289,7 @@ public class UserDAO {
 				long registered = rs.getLong("registered");
 				String steamAccount = rs.getString("steam_account");
 				String wotAccount = rs.getString("wot_account");
-				user = new User(id, nickName, email, password, avatar, role, status, registered, steamAccount, wotAccount);
+				user = new UserBean(id, nickName, email, password, avatar, role, status, registered, steamAccount, wotAccount);
 				users.add(user);
 			}
 		} catch (SQLException e) {

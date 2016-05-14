@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.matroskeen.config.ConnectionManager;
-import com.matroskeen.beans.Tournament;
+import com.matroskeen.beans.TournamentBean;
 
 public class TournamentDAO {
 	
@@ -38,13 +38,13 @@ public class TournamentDAO {
 		return rowsAffected > 0;
 	}
 	
-	public static ArrayList<Tournament> getAll() {
+	public static ArrayList<TournamentBean> getAll() {
 		String query = "SELECT * FROM tournaments";
 		
 		ConnectionManager conM = new ConnectionManager();
 		Connection con = conM.getConnection();
 		ResultSet rs = null;
-		ArrayList<Tournament> tournaments = new ArrayList<>();
+		ArrayList<TournamentBean> tournaments = new ArrayList<>();
 		
 		try (PreparedStatement ps = con.prepareStatement(query)) {
 			rs = ps.executeQuery();
@@ -58,13 +58,41 @@ public class TournamentDAO {
 				String info = rs.getString("info");
 				String terms = rs.getString("terms");
 				byte status = rs.getByte("status");
-				Tournament tournament = new Tournament(id, title, teamPlayers, extraPlayers, date, info, terms, status);
+				TournamentBean tournament = new TournamentBean(id, title, teamPlayers, extraPlayers, date, info, terms, status);
 				tournaments.add(tournament);
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 		return tournaments;
+	}
+	
+	public static TournamentBean find(int id) {
+		String query = "SELECT * FROM tournaments WHERE id = ?";
+		
+		ConnectionManager conM = new ConnectionManager();
+		Connection con = conM.getConnection();
+		ResultSet rs = null;
+		TournamentBean tournament = null;
+		
+		try (PreparedStatement ps = con.prepareStatement(query)) {
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				String title = rs.getString("title");
+				int teamPlayers = rs.getInt("team_players");
+				int extraPlayers = rs.getInt("extra_players");
+				long date = rs.getLong("date");
+				String info = rs.getString("info");
+				String terms = rs.getString("terms");
+				byte status = rs.getByte("status");
+				tournament = new TournamentBean(id, title, teamPlayers, extraPlayers, date, info, terms, status);
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return tournament;
 	}
 
 }
