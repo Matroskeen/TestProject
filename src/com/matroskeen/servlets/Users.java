@@ -12,7 +12,6 @@ import javax.servlet.http.HttpSession;
 
 import com.matroskeen.beans.User;
 import com.matroskeen.dao.UserDAO;
-import com.matroskeen.settings.Role;
 
 /**
  * Servlet implementation class Users
@@ -36,7 +35,7 @@ public class Users extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		User user = (session != null) ? (User) session.getAttribute("user") : null;
 		
-		if (user == null || user.getRole() != Role.ADMIN) {
+		if (user == null || user.getRole() != User.ROLE_ADMIN) {
 			response.sendError(403);
 		} else {
 			ArrayList<User> users = UserDAO.getAll();

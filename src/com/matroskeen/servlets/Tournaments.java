@@ -3,7 +3,10 @@ package com.matroskeen.servlets;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,9 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.matroskeen.beans.Tournament;
 import com.matroskeen.beans.User;
 import com.matroskeen.dao.TournamentDAO;
-import com.matroskeen.settings.Role;
 
 /**
  * Servlet implementation class Tournaments
@@ -37,13 +40,39 @@ public class Tournaments extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
 		
-		String status = (String) session.getAttribute("status");
-		String message = (String) session.getAttribute("message");
-		request.setAttribute("status", status);
-		request.setAttribute("message", message);
-		session.setAttribute("status", null);
-		session.setAttribute("message", null);
-			
+		if (session != null) {
+			String status = (String) session.getAttribute("status");
+			String message = (String) session.getAttribute("message");
+			request.setAttribute("status", status);
+			request.setAttribute("message", message);
+			session.setAttribute("status", null);
+			session.setAttribute("message", null);
+		}
+		
+		ArrayList<Tournament> tournaments = TournamentDAO.getAll();
+		ArrayList<Tournament> activeTournaments = new ArrayList<>();
+		ArrayList<Tournament> plannedTournaments = new ArrayList<>();
+		ArrayList<Tournament> archiveTournaments = new ArrayList<>();
+		
+		for(Tournament tournament : tournaments) {
+			switch(tournament.getStatus()) {
+				case Tournament.STATUS_PAST:
+					archiveTournaments.add(tournament);
+					break;
+				case Tournament.STATUS_PLANNED:
+					plannedTournaments.add(tournament);
+					break;
+				case Tournament.STATUS_ACTIVE:
+					activeTournaments.add(tournament);
+					break;
+			}
+		}
+		Map<Byte, ArrayList<Tournament>> sortedTournaments  = new HashMap<>();
+		sortedTournaments.put(Tournament.STATUS_PAST, archiveTournaments);
+		sortedTournaments.put(Tournament.STATUS_PLANNED, plannedTournaments);
+		sortedTournaments.put(Tournament.STATUS_ACTIVE, activeTournaments);
+		
+		request.setAttribute("tournaments", sortedTournaments);
 		request.getRequestDispatcher("tournaments.jsp").forward(request, response);
 	}
 
@@ -54,7 +83,7 @@ public class Tournaments extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		User user = (session != null) ? (User) session.getAttribute("user") : null;
 		
-		if (user == null || user.getRole() != Role.ADMIN) {
+		if (user == null || user.getRole() != User.ROLE_ADMIN) {
 			response.sendError(403);
 		} else {
 			String title = request.getParameter("title");

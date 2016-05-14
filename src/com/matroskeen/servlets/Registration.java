@@ -8,10 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.matroskeen.beans.User;
 import com.matroskeen.dao.UserDAO;
 import com.matroskeen.helpful.Email;
 import com.matroskeen.helpful.Generator;
-import com.matroskeen.settings.Role;
 
 /**
  * Servlet implementation class Registration
@@ -50,7 +50,7 @@ public class Registration extends HttpServlet {
 		if (errors.isEmpty()) {
 			String token = Generator.getRandomString(64);
 			String confirmLink = request.getContextPath() + "/confirm_email?token=" + token;
-			UserDAO.register(nickName, email, password, Role.USER, token);
+			UserDAO.register(nickName, email, password, User.ROLE_USER, token);
 			new Email().sendRegistrationToken(email, confirmLink);
 			
 			response.sendRedirect(request.getContextPath() + "/confirm_email");

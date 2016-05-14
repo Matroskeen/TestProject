@@ -2,10 +2,14 @@ package com.matroskeen.beans;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
-import com.matroskeen.settings.Role;
-import com.matroskeen.settings.AccountStatus;
-
 public class User {
+	
+	public final static byte STATUS_REGISTERED = 0;
+	public final static byte STATUS_CONFIRMED = 1;
+	public final static byte STATUS_BANNED = 2;
+	
+	public final static byte ROLE_ADMIN = 1;
+	public final static byte ROLE_USER = 0;
 	
 	private int id;
 	private String nickName;
@@ -123,10 +127,10 @@ public class User {
 		String roleName = "";
 		
 		switch(this.role) {
-			case Role.USER:
+			case ROLE_USER:
 				roleName = "Користувач";
 				break;
-			case Role.ADMIN:
+			case ROLE_ADMIN:
 				roleName = "Адмін";
 				break;
 			default:
@@ -139,13 +143,13 @@ public class User {
 		String statusName = "";
 		
 		switch(this.status) {
-			case AccountStatus.CONFIRMED:
+			case STATUS_CONFIRMED:
 				statusName = "Підтверджений";
 				break;
-			case AccountStatus.REGISTERED:
+			case STATUS_REGISTERED:
 				statusName = "Зареєстрований";
 				break;
-			case AccountStatus.BANNED:
+			case STATUS_BANNED:
 				statusName = "Забанений";
 				break;
 			default:

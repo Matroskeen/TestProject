@@ -1,6 +1,6 @@
 <%@include file = "header.jsp" %>
 
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <div class="container" id="nav-container">
 	<ul class="nav nav-pills top-menu">
