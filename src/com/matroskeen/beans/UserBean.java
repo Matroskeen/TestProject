@@ -2,7 +2,7 @@ package com.matroskeen.beans;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
-public class User {
+public class UserBean {
 	
 	public final static byte STATUS_REGISTERED = 0;
 	public final static byte STATUS_CONFIRMED = 1;
@@ -22,7 +22,7 @@ public class User {
 	private String steamAccount;
 	private String wotAccount;
 	
-	public User(int id, String nickName, String email, String password,
+	public UserBean(int id, String nickName, String email, String password,
             String avatar, byte role, byte status, long registered) {
 	    super();
 	    this.id = id;
@@ -35,7 +35,7 @@ public class User {
 	    this.registered = registered;
     }
 	
-	public User(int id, String nickName, String email, String password,
+	public UserBean(int id, String nickName, String email, String password,
             String avatar, byte role, byte status, long registered, String steam_account, String wot_account) {
 	    super();
 	    this.id = id;
@@ -50,7 +50,7 @@ public class User {
 	    this.wotAccount = wot_account;
     }
 
-	public User() { }
+	public UserBean() { }
 
 	public int getId() {
 		return id;

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import com.matroskeen.beans.FileBean;
-import com.matroskeen.beans.User;
+import com.matroskeen.beans.UserBean;
 import com.matroskeen.dao.UserDAO;
 
 
@@ -24,7 +24,7 @@ public class FileUploadManager {
 		String savePath = appPath + File.separator + saveDir;
 		String fileName = null;
 		
-		User user = UserDAO.find(userId);
+		UserBean user = UserDAO.find(userId);
 		
 		try {
 			for (Part part : request.getParts()) {

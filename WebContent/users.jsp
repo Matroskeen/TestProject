@@ -1,4 +1,4 @@
-<%@page import="com.matroskeen.beans.User"%>
+<%@page import="com.matroskeen.beans.UserBean"%>
 <%@page import="java.io.File"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.HashMap"%>
@@ -7,7 +7,7 @@
 <%@page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<% ArrayList<User> users = (ArrayList<User>) request.getAttribute("users"); %>
+<% ArrayList<UserBean> users = (ArrayList<UserBean>) request.getAttribute("users"); %>
 
 <%@ include file="menu.jsp" %>
 
@@ -30,7 +30,7 @@
 		        </tr>
 		    </thead>
 		    <tbody>
-		    <% for (User currentUser: users) { %>
+		    <% for (UserBean currentUser: users) { %>
 			<tr>
 				<td><%= currentUser.getId() %></td>
 				<td>

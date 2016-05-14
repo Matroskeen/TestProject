@@ -1,6 +1,6 @@
 package com.matroskeen.beans;
 
-public class Tournament {
+public class TournamentBean {
 	
 	public final static byte STATUS_ACTIVE = 0;
 	public final static byte STATUS_PLANNED = 1;
@@ -16,9 +16,9 @@ public class Tournament {
 	private String terms;
 	private byte status;
 	
-	public Tournament() { }
+	public TournamentBean() { }
 	
-	public Tournament(int id, String title, int teamPlayers, int extraPlayers,
+	public TournamentBean(int id, String title, int teamPlayers, int extraPlayers,
             long date, String info, String terms, byte status) {
 	    super();
 	    this.id = id;

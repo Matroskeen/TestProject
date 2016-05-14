@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.matroskeen.beans.User;
+import com.matroskeen.beans.UserBean;
 import com.matroskeen.dao.UserDAO;
 
 /**
@@ -33,7 +33,7 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String login = request.getParameter("login");
 		String password = request.getParameter("password");
-		User user = UserDAO.find(login);
+		UserBean user = UserDAO.find(login);
 		
 		if (user != null && user.isPasswordValid(password)) {
 			HttpSession session = request.getSession(true);
