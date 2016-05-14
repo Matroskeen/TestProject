@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.matroskeen.beans.User;
 import com.matroskeen.dao.UserDAO;
 import com.matroskeen.helpful.Generator;
-import com.matroskeen.settings.Role;
 
 /**
  * Servlet implementation class AdminRegistration
@@ -30,7 +30,7 @@ public class AdminRegistration extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		if (UserDAO.find(Role.ADMIN).isEmpty()) {
+		if (UserDAO.find(User.ROLE_ADMIN).isEmpty()) {
 			request.getRequestDispatcher("admin-registration.jsp").forward(request, response);
 		} else {
 			response.sendRedirect(request.getContextPath());
@@ -43,10 +43,10 @@ public class AdminRegistration extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		
-		if (UserDAO.find(Role.ADMIN).isEmpty()) {
+		if (UserDAO.find(User.ROLE_ADMIN).isEmpty()) {
 			String token = Generator.getRandomString(64);
 			
-			UserDAO.register(nickName, email, password, Role.ADMIN, token);
+			UserDAO.register(nickName, email, password, User.ROLE_ADMIN, token);
 		}
 		response.sendRedirect(request.getContextPath());
 	}

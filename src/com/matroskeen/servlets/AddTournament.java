@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.matroskeen.beans.User;
-import com.matroskeen.settings.Role;
 
 /**
  * Servlet implementation class AddTournament
@@ -34,7 +33,7 @@ public class AddTournament extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		User user = (session != null) ? (User) session.getAttribute("user") : null;
 		
-		if (user == null || user.getRole() != Role.ADMIN) {
+		if (user == null || user.getRole() != User.ROLE_ADMIN) {
 			response.sendError(403);
 		} else {
 			String status = (String) session.getAttribute("status");
