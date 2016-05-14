@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.matroskeen.beans.Tournament;
-import com.matroskeen.beans.User;
+import com.matroskeen.beans.TournamentBean;
+import com.matroskeen.beans.UserBean;
 import com.matroskeen.dao.TournamentDAO;
 
 /**
@@ -49,31 +49,31 @@ public class Tournaments extends HttpServlet {
 			session.setAttribute("message", null);
 		}
 		
-		ArrayList<Tournament> tournaments = TournamentDAO.getAll();
-		ArrayList<Tournament> activeTournaments = new ArrayList<>();
-		ArrayList<Tournament> plannedTournaments = new ArrayList<>();
-		ArrayList<Tournament> archiveTournaments = new ArrayList<>();
+		ArrayList<TournamentBean> tournaments = TournamentDAO.getAll();
+		ArrayList<TournamentBean> activeTournaments = new ArrayList<>();
+		ArrayList<TournamentBean> plannedTournaments = new ArrayList<>();
+		ArrayList<TournamentBean> archiveTournaments = new ArrayList<>();
 		
-		for(Tournament tournament : tournaments) {
+		for(TournamentBean tournament : tournaments) {
 			switch(tournament.getStatus()) {
-				case Tournament.STATUS_PAST:
+				case TournamentBean.STATUS_PAST:
 					archiveTournaments.add(tournament);
 					break;
-				case Tournament.STATUS_PLANNED:
+				case TournamentBean.STATUS_PLANNED:
 					plannedTournaments.add(tournament);
 					break;
-				case Tournament.STATUS_ACTIVE:
+				case TournamentBean.STATUS_ACTIVE:
 					activeTournaments.add(tournament);
 					break;
 			}
 		}
-		Map<Byte, ArrayList<Tournament>> sortedTournaments  = new HashMap<>();
-		sortedTournaments.put(Tournament.STATUS_PAST, archiveTournaments);
-		sortedTournaments.put(Tournament.STATUS_PLANNED, plannedTournaments);
-		sortedTournaments.put(Tournament.STATUS_ACTIVE, activeTournaments);
+		Map<Byte, ArrayList<TournamentBean>> sortedTournaments  = new HashMap<>();
+		sortedTournaments.put(TournamentBean.STATUS_PAST, archiveTournaments);
+		sortedTournaments.put(TournamentBean.STATUS_PLANNED, plannedTournaments);
+		sortedTournaments.put(TournamentBean.STATUS_ACTIVE, activeTournaments);
 		
 		request.setAttribute("tournaments", sortedTournaments);
-		request.getRequestDispatcher("tournaments.jsp").forward(request, response);
+		request.getRequestDispatcher("/tournaments.jsp").forward(request, response);
 	}
 
 	/**
@@ -81,9 +81,9 @@ public class Tournaments extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
-		User user = (session != null) ? (User) session.getAttribute("user") : null;
+		UserBean user = (session != null) ? (UserBean) session.getAttribute("user") : null;
 		
-		if (user == null || user.getRole() != User.ROLE_ADMIN) {
+		if (user == null || user.getRole() != UserBean.ROLE_ADMIN) {
 			response.sendError(403);
 		} else {
 			String title = request.getParameter("title");
@@ -117,7 +117,7 @@ public class Tournaments extends HttpServlet {
 				request.setAttribute("order", order);
 				request.setAttribute("info", info);
 				request.setAttribute("title", title);
-				request.getRequestDispatcher("add_tournament.jsp").forward(request, response);
+				request.getRequestDispatcher("/add_tournament.jsp").forward(request, response);
 			}
 		}
 	}

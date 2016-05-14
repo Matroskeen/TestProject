@@ -1,25 +1,26 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Map"%>
-<%@page import="com.matroskeen.beans.Tournament"%>
+<%@page import="com.matroskeen.beans.TournamentBean"%>
+<%@page import="com.matroskeen.beans.UserBean"%>
 
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<% Map<Byte, ArrayList<Tournament>> tournaments = (Map<Byte, ArrayList<Tournament>>) request.getAttribute("tournaments");%>
+<% Map<Byte, ArrayList<TournamentBean>> tournaments = (Map<Byte, ArrayList<TournamentBean>>) request.getAttribute("tournaments");%>
 
 <%@include file="menu.jsp" %>
 
-<% if (user != null && user.getRole() == User.ROLE_ADMIN) { %>
+<% if (user != null && user.getRole() == UserBean.ROLE_ADMIN) { %>
 	<a href="<%= basePath %>/add_tournament">Add</a>
 <% } %>
 <h1>Турніри</h1>
 
-<% for(Byte tournamentStatus : Tournament.STATUSES) { %>
-	<% ArrayList<Tournament> currentTournaments = tournaments.get(tournamentStatus); %>
+<% for(Byte tournamentStatus : TournamentBean.STATUSES) { %>
+	<% ArrayList<TournamentBean> currentTournaments = tournaments.get(tournamentStatus); %>
 	<% if (!currentTournaments.isEmpty()) { %>
-		<h2><small><%= Tournament.getStatusName(tournamentStatus) %></small></h2>
+		<h2><small><%= TournamentBean.getStatusName(tournamentStatus) %></small></h2>
 		<ul class="list-group">
 		
-		<% for(Tournament tournament : currentTournaments) { %>
+		<% for(TournamentBean tournament : currentTournaments) { %>
 			<li class="list-group-item">
 				<h3><a href="tournaments/<%= tournament.getId() %>"><%= tournament.getTitle() %></a></h3>
 				

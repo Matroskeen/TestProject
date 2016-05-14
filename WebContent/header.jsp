@@ -1,7 +1,7 @@
-<%@ page import="com.matroskeen.beans.User" %>
+<%@ page import="com.matroskeen.beans.UserBean" %>
 
 <% String basePath = request.getContextPath(); %>
-<% User user = (User) session.getAttribute("user"); %>
+<% UserBean user = (UserBean) session.getAttribute("user"); %>
 <% String status = (String) request.getAttribute("status"); %>
 <% String message = (String) request.getAttribute("message"); %>
 
